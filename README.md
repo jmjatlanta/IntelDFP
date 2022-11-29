@@ -1,2 +1,2 @@
-# dfpNumber.c
-Intel® Decimal Floating-Point Math Library
+# Intel(R) Decimal Floating-Point Math Library v2.2
+
