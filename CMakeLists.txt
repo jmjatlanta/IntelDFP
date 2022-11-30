@@ -253,7 +253,16 @@ set(SOURCES
   LIBRARY/src/wcstod64.c
 )
 
+add_compile_definitions(DECIMAL_CALL_BY_REFERENCE=0)
+add_compile_definitions(DECIMAL_GLOBAL_ROUNDING=0)
+add_compile_definitions(DECIMAL_GLOBAL_EXCEPTION_FLAGS=0)
+add_compile_definitions(UNCHANGED_BINARY_STATUS_FLAGS=0)
+add_compile_definitions(USE_COMPILER_F128_TYPE=0)
+add_compile_definitions(USE_COMPILER_F80_TYPE=0)
+add_compile_definitions(USE_NATIVE_QUAD_TYPE=0)
 add_compile_definitions(ix86)
+
+add_compile_options(-E)
 add_compile_options(-Wno-implicit-function-declaration)
 
 add_library(${PROJECT_NAME} ${SOURCES})
