@@ -199,19 +199,19 @@ bid128_to_string (char *str, BID_UINT128 x
       // Lo_18Dig = {C1.w[0]{58:0}}
 
       while (Tmp) {
-	midi_ind = (int) (Tmp & 0x000000000000003FLL);
-	midi_ind <<= 1;
-	Tmp >>= 6;
-	HI_18Dig += mod10_18_tbl[k_lcv][midi_ind++];
-	LO_18Dig += mod10_18_tbl[k_lcv++][midi_ind];
-	__L0_Normalize_10to18 (HI_18Dig, LO_18Dig);
+	    midi_ind = (int) (Tmp & 0x000000000000003FLL);
+	    midi_ind <<= 1;
+	    Tmp >>= 6;
+	    HI_18Dig += mod10_18_tbl[k_lcv][midi_ind++];
+	    LO_18Dig += mod10_18_tbl[k_lcv++][midi_ind];
+	    __L0_Normalize_10to18 (HI_18Dig, LO_18Dig);
       }
       ptr = MiDi;
       if (HI_18Dig == 0LL) {
-	__L1_Split_MiDi_6_Lead (LO_18Dig, ptr);
+	    __L1_Split_MiDi_6_Lead (LO_18Dig, ptr);
       } else {
-	__L1_Split_MiDi_6_Lead (HI_18Dig, ptr);
-	__L1_Split_MiDi_6 (LO_18Dig, ptr);
+	    __L1_Split_MiDi_6_Lead (HI_18Dig, ptr);
+	    __L1_Split_MiDi_6 (LO_18Dig, ptr);
       }
       len = ptr - MiDi;
       c_ptr_start = &(str[k]);
@@ -220,7 +220,7 @@ bid128_to_string (char *str, BID_UINT128 x
       /* now convert the MiDi into character strings */
       __L0_MiDi2Str_Lead (MiDi[0], c_ptr);
       for (k_lcv = 1; k_lcv < len; k_lcv++) {
-	__L0_MiDi2Str (MiDi[k_lcv], c_ptr);
+	    __L0_MiDi2Str (MiDi[k_lcv], c_ptr);
       }
       k = k + (c_ptr - c_ptr_start);
     }
@@ -248,20 +248,19 @@ bid128_to_string (char *str, BID_UINT128 x
       str[k++] = bid_char_table3[ind + 2];
     } else { // 0 <= exp <= 999 => d0 = 0
       if (d123 < 10) { // 0 <= exp <= 9 => 1 digit to return
-	str[k++] = d123 + 0x30;// ASCII
+	    str[k++] = d123 + 0x30;// ASCII
       } else if (d123 < 100) { // 10 <= exp <= 99 => 2 digits to return
-	ind = 2 * (d123 - 10);
-	str[k++] = bid_char_table2[ind];
-	str[k++] = bid_char_table2[ind + 1];
+	    ind = 2 * (d123 - 10);
+	    str[k++] = bid_char_table2[ind];
+	    str[k++] = bid_char_table2[ind + 1];
       } else { // 100 <= exp <= 999 => 3 digits to return
-	ind = 3 * d123;
-	str[k++] = bid_char_table3[ind];
-	str[k++] = bid_char_table3[ind + 1];
-	str[k++] = bid_char_table3[ind + 2];
+	    ind = 3 * d123;
+	    str[k++] = bid_char_table3[ind];
+	    str[k++] = bid_char_table3[ind + 1];
+	    str[k++] = bid_char_table3[ind + 2];
       }
     }
     str[k] = '\0';
-
   }
   return;
 

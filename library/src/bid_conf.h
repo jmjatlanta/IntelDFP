@@ -1474,18 +1474,15 @@ union {\
 
 #   else
 #       include <fenv.h>
-#       define BID_FE_ALL_FLAGS FE_INVALID|FE_DIVBYZERO|FE_OVERFLOW|FE_UNDERFLOW|FE_INEXACT
-#       define BID_OPT_FLAG_DECLARE() \
-            fexcept_t binaryflags = 0; 
-#       define BID_OPT_SAVE_BINARY_FLAGS() \
-            (void) fegetexceptflag (&binaryflags, BID_FE_ALL_FLAGS);
-#       define BID_OPT_RESTORE_BINARY_FLAGS() \
-            (void) fesetexceptflag (&binaryflags, BID_FE_ALL_FLAGS);
+#       define BID_FE_ALL_FLAGS (FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW | FE_UNDERFLOW | FE_INEXACT)
+#       define BID_OPT_FLAG_DECLARE() fexcept_t binaryflags = 0;
+#       define BID_OPT_SAVE_BINARY_FLAGS()  (void) fegetexceptflag (&binaryflags, BID_FE_ALL_FLAGS);
+#       define BID_OPT_RESTORE_BINARY_FLAGS() (void) fesetexceptflag (&binaryflags, BID_FE_ALL_FLAGS);
 #   endif
 #else
-#   define BID_OPT_FLAG_DECLARE() 
-#   define BID_OPT_SAVE_BINARY_FLAGS()
-#   define BID_OPT_RESTORE_BINARY_FLAGS()
+  #define BID_OPT_FLAG_DECLARE()
+  #define BID_OPT_SAVE_BINARY_FLAGS()
+  #define BID_OPT_RESTORE_BINARY_FLAGS()
 #endif
 
 #define BID_PROLOG_REF(arg_name) \

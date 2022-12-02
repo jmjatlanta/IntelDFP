@@ -31,17 +31,17 @@
 #define ARCHITECTURE_H
 
 /*
-** for historic reasons, map ia64 architecture to merced and ct architecture to amd64 
+** For historic reasons, map ia64 architecture to merced and ct architecture to amd64.
 */
 
 #if (defined(ia64) || defined(__ia64) || defined(__ia64__))  && !defined(HPUX_OS)
-#   undef  merced
-#   define merced
+  #undef  merced
+  #define merced
 #endif
 
 #if defined(ct) || defined(efi2)
-#   undef  _M_AMD64
-#   define _M_AMD64
+  #undef  _M_AMD64
+  #define _M_AMD64
 #endif
 
 #if defined(HPUX_OS)

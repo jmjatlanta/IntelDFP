@@ -1842,9 +1842,8 @@ unpack_BID128_value_BLE (BID_UINT64 * psign_x, int *pexponent_x,
 //
 //  BID128 unpack, input passed by value
 //
-__BID_INLINE__ BID_UINT64
-unpack_BID128_value (BID_UINT64 * psign_x, int *pexponent_x,
-		     BID_UINT128 * pcoefficient_x, BID_UINT128 x) {
+__BID_INLINE__ BID_UINT64 unpack_BID128_value (BID_UINT64 * psign_x, int *pexponent_x, BID_UINT128 * pcoefficient_x, BID_UINT128 x) {
+
   BID_UINT128 coeff, T33, T34;
   BID_UINT64 ex;
 
@@ -1875,8 +1874,9 @@ unpack_BID128_value (BID_UINT64 * psign_x, int *pexponent_x,
     {
       pcoefficient_x->w[1] = (x.w[1]) & 0xfe00000000000000ull;
       pcoefficient_x->w[0] = 0;
-    } else
+    } else {
       pcoefficient_x->w[1] = (x.w[1]) & 0xfe003fffffffffffull;
+    }
     if ((x.w[1] & NAN_MASK64) == INFINITY_MASK64) {
       pcoefficient_x->w[0] = 0;
       pcoefficient_x->w[1] = x.w[1] & SINFINITY_MASK64;
@@ -2094,15 +2094,12 @@ bid_get_BID128_fast (BID_UINT128 * pres, BID_UINT64 sgn, int expon, BID_UINT128 
 //
 //   General BID128 pack macro
 //
-__BID_INLINE__ BID_UINT128 *
-bid_get_BID128 (BID_UINT128 * pres, BID_UINT64 sgn, int expon, BID_UINT128 coeff,
-	    unsigned *prounding_mode, unsigned *fpsc) {
+__BID_INLINE__ BID_UINT128 * bid_get_BID128 (BID_UINT128 * pres, BID_UINT64 sgn, int expon, BID_UINT128 coeff, unsigned *prounding_mode, unsigned *fpsc) {
   BID_UINT128 T;
   BID_UINT64 tmp, tmp2;
 
   // coeff==10^34?
-  if (coeff.w[1] == 0x0001ed09bead87c0ull
-      && coeff.w[0] == 0x378d8e6400000000ull) {
+  if (coeff.w[1] == 0x0001ed09bead87c0ull && coeff.w[0] == 0x378d8e6400000000ull) {
     expon++;
     // set coefficient to 10^33
     coeff.w[1] = 0x0000314dc6448d93ull;
@@ -2112,30 +2109,24 @@ bid_get_BID128 (BID_UINT128 * pres, BID_UINT64 sgn, int expon, BID_UINT128 coeff
   if (expon < 0 || expon > DECIMAL_MAX_EXPON_128) {
     // check UF
     if (expon < 0) {
-      return handle_UF_128 (pres, sgn, expon, coeff, prounding_mode,
-			    fpsc);
+      return handle_UF_128 (pres, sgn, expon, coeff, prounding_mode, fpsc);
     }
 
     if (expon - MAX_FORMAT_DIGITS_128 <= DECIMAL_MAX_EXPON_128) {
       T = bid_power10_table_128[MAX_FORMAT_DIGITS_128 - 1];
-      while (__unsigned_compare_gt_128 (T, coeff)
-	     && expon > DECIMAL_MAX_EXPON_128) {
-	coeff.w[1] =
-	  (coeff.w[1] << 3) + (coeff.w[1] << 1) + (coeff.w[0] >> 61) +
-	  (coeff.w[0] >> 63);
-	tmp2 = coeff.w[0] << 3;
-	coeff.w[0] = (coeff.w[0] << 1) + tmp2;
-	if (coeff.w[0] < tmp2)
-	  coeff.w[1]++;
-
-	expon--;
+      while (__unsigned_compare_gt_128 (T, coeff) && expon > DECIMAL_MAX_EXPON_128) {
+	      coeff.w[1] = (coeff.w[1] << 3) + (coeff.w[1] << 1) + (coeff.w[0] >> 61) + (coeff.w[0] >> 63);
+	      tmp2 = coeff.w[0] << 3;
+	      coeff.w[0] = (coeff.w[0] << 1) + tmp2;
+	      if (coeff.w[0] < tmp2) coeff.w[1]++;
+      	expon--;
       }
     }
     if (expon > DECIMAL_MAX_EXPON_128) {
       if (!(coeff.w[1] | coeff.w[0])) {
-	pres->w[1] = sgn | (((BID_UINT64) DECIMAL_MAX_EXPON_128) << 49);
-	pres->w[0] = 0;
-	return pres;
+	      pres->w[1] = sgn | (((BID_UINT64) DECIMAL_MAX_EXPON_128) << 49);
+	      pres->w[0] = 0;
+	      return pres;
       }
       // OF
 #ifdef BID_SET_STATUS_FLAGS
@@ -2143,31 +2134,23 @@ bid_get_BID128 (BID_UINT128 * pres, BID_UINT64 sgn, int expon, BID_UINT128 coeff
 #endif
 #ifndef IEEE_ROUND_NEAREST_TIES_AWAY
 #ifndef IEEE_ROUND_NEAREST
-      if (*prounding_mode == BID_ROUNDING_TO_ZERO
-	  || (sgn && *prounding_mode == BID_ROUNDING_UP) || (!sgn
-							 &&
-							 *prounding_mode
-							 ==
-							 BID_ROUNDING_DOWN))
-      {
-	pres->w[1] = sgn | LARGEST_BID128_HIGH;
-	pres->w[0] = LARGEST_BID128_LOW;
+      if (*prounding_mode == BID_ROUNDING_TO_ZERO || (sgn && *prounding_mode == BID_ROUNDING_UP) || (!sgn && *prounding_mode == BID_ROUNDING_DOWN)) {
+	      pres->w[1] = sgn | LARGEST_BID128_HIGH;
+	      pres->w[0] = LARGEST_BID128_LOW;
       } else
 #endif
 #endif
       {
-	pres->w[1] = sgn | INFINITY_MASK64;
-	pres->w[0] = 0;
+	      pres->w[1] = sgn | INFINITY_MASK64;
+	      pres->w[0] = 0;
       }
       return pres;
     }
   }
-
   pres->w[0] = coeff.w[0];
   tmp = expon;
   tmp <<= 49;
   pres->w[1] = sgn | tmp | coeff.w[1];
-
   return pres;
 }
 
