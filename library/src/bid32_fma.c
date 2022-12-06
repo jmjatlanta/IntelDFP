@@ -379,7 +379,7 @@ BID_TYPE0_FUNCTION_ARGTYPE1_ARGTYPE2_ARGTYPE3(BID_UINT32, bid32_fma, BID_UINT32,
 
       // get P*(2^M[extra_digits])/10^extra_digits
       __mul_128x128_full (Q_high, Q_low, P,
-			  bid_reciprocals10_128[extra_digits]);
+													bid_reciprocals10_128[extra_digits]);
       // now get P/10^extra_digits: shift Q_high right by M[extra_digits]-128
       amount = bid_recip_scale[extra_digits];
       __shr_128_long (C128, Q_high, amount);

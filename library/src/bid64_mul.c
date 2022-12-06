@@ -277,7 +277,7 @@ BID_TYPE0_FUNCTION_ARGTYPE1_ARGTYPE2(BID_UINT64, bid64_mul, BID_UINT64, x, BID_U
 
       // get P*(2^M[extra_digits])/10^extra_digits
       __mul_128x128_full (Q_high, Q_low, P,
-			  bid_reciprocals10_128[extra_digits]);
+                          bid_reciprocals10_128[extra_digits]);
 
       // now get P/10^extra_digits: shift Q_high right by M[extra_digits]-128
       amount = bid_recip_scale[extra_digits];

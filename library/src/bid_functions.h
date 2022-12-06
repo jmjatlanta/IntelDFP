@@ -143,8 +143,8 @@ typedef BID_UINT128 _Quad;
 
 // status
 #define BID_FLAG_MASK               0x0000003f
-#define DEC_FE_ALL_EXCEPT       0x0000003f
-#define BID_IEEE_FLAGS          0x0000003d
+#define DEC_FE_ALL_EXCEPT           0x0000003f
+#define BID_IEEE_FLAGS              0x0000003d
 #define BID_EXACT_STATUS            0x00000000
 
 ///////////////////////////////////////////////////////
