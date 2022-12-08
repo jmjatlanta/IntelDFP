@@ -94,14 +94,17 @@ void bench_from_string() {
 }
 
 void test() {
-  display_from_string_rnd("9.999999999999999999999999999999999E+6144", BID_ROUNDING_TO_NEAREST);
+  BID_UINT64 x = 0x8000000000000000ull;
+  BID_UINT128 v = bid128_from_uint64(x);
+  display("a", v);
+
 }
 
 int main() {
 
-  bench_from_string();
+  //bench_from_string();
 
-  //test();
+  test();
 
   //test_bid128_scalbn();
 
