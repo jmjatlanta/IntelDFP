@@ -254,7 +254,7 @@ set(SOURCES
 )
 
 add_compile_definitions(DECIMAL_CALL_BY_REFERENCE=0)
-add_compile_definitions(DECIMAL_GLOBAL_ROUNDING=1)
+add_compile_definitions(DECIMAL_GLOBAL_ROUNDING=0)
 add_compile_definitions(DECIMAL_GLOBAL_EXCEPTION_FLAGS=1)
 add_compile_definitions(ix86)
 add_compile_definitions(linux)

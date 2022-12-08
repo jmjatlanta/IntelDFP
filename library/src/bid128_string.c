@@ -613,6 +613,7 @@ BID_UINT128 bid128_from_string(char *ps _RND_MODE_PARAM _EXC_FLAGS_PARAM _EXC_MA
       coeff_l2 = coeff_low + coeff_low;
       coeff_low = (coeff_l2 << 2) + coeff_l2 + buffer[i] - '0';
     }
+    unsigned a;
     switch (rnd_mode) {
       case BID_ROUNDING_TO_NEAREST:
         carry = ((unsigned) ('4' - buffer[i])) >> 31;
@@ -652,6 +653,7 @@ BID_UINT128 bid128_from_string(char *ps _RND_MODE_PARAM _EXC_FLAGS_PARAM _EXC_MA
         carry = 0;
         break;
       case BID_ROUNDING_TIES_AWAY:
+        a = (unsigned)('4' - buffer[i]);
         carry = ((unsigned) ('4' - buffer[i])) >> 31;
         if (dec_expon < 0) {
           for (; i < ndigits_total; i++) {
