@@ -258,17 +258,21 @@ add_compile_definitions(DECIMAL_GLOBAL_ROUNDING=0)
 add_compile_definitions(DECIMAL_GLOBAL_EXCEPTION_FLAGS=1)
 add_compile_definitions(ix86)
 
+add_library(dfp ${SOURCES})
+
 IF(MSVC)
     target_compile_definitions(dfp PRIVATE USE_COMPILER_F128_TYPE=0)
     target_compile_definitions(dfp PRIVATE USE_COMPILER_F80_TYPE=0)
+    target_compile_definitions(dfp PRIVATE USE_NATIVE_QUAD_TYPE=0)
     target_compile_definitions(dfp PRIVATE WINDOWS)
+    target_compile_definitions(dfp PRIVATE wnt)
+    target_compile_definitions(dfp PRIVATE ia32)
     target_compile_options(dfp PRIVATE -UBID_BIG_ENDIAN)
 ELSE(MSVC)
     add_compile_options(-Wno-implicit-function-declaration)
     add_compile_definitions(linux)
 ENDIF(MSVC)
 
-add_library(dfp ${SOURCES})
 
 #add_executable(dfp-bin app/main.c)
 #target_link_libraries(dfp-bin dfp)
