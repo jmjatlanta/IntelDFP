@@ -269,8 +269,8 @@ IF(MSVC)
     target_compile_definitions(dfp PRIVATE ia32)
     target_compile_options(dfp PRIVATE -UBID_BIG_ENDIAN)
 ELSE(MSVC)
-    add_compile_options(-Wno-implicit-function-declaration)
-    add_compile_definitions(linux)
+    target_compile_options(dfp PRIVATE -Wno-implicit-function-declaration)
+    target_compile_definitions(dfp PRIVATE linux)
 ENDIF(MSVC)
 
 
